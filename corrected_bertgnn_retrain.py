@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Corrected BERT-GNN training with a proper held-out validation set.
+BERT-GNN training with a held-out validation set (leakage-free protocol).
 
 Why
 ---
@@ -228,7 +228,7 @@ model, best_vl, history = train_with_earlystop(best_params, max_epochs=50, patie
 _, tpred, tlab, tprob = run_epoch(model, GeoLoader(test_graphs, batch_size=best_params["batch_size"]),
                                   want_probs=True)
 
-# --- figures: loss curve, ROC, PR (corrected held-out model) ---------------
+# --- figures: loss curve, ROC, PR (held-out model) ---------------
 try:
     import matplotlib
     matplotlib.use("Agg")
@@ -243,7 +243,7 @@ try:
     plt.plot(ep, tr_l, marker="o", ms=3, label="Training loss")
     plt.plot(ep, va_l, marker="s", ms=3, label="Validation loss")
     plt.xlabel("Epoch"); plt.ylabel("Cross-entropy loss")
-    plt.title("Corrected BERT-GNN: training vs validation loss")
+    plt.title("Held-out BERT-GNN: training vs validation loss")
     plt.legend(); plt.grid(alpha=0.3); plt.tight_layout()
     plt.savefig(os.path.join(FIG, "corrected_loss_curve.png"), dpi=200, bbox_inches="tight"); plt.close()
 
@@ -252,7 +252,7 @@ try:
     plt.plot(fpr, tpr, color="#3b6ea5", label=f"ROC (AUC = {roc_auc:.4f})")
     plt.plot([0, 1], [0, 1], "--", color="grey", lw=1)
     plt.xlabel("False positive rate"); plt.ylabel("True positive rate")
-    plt.title("Corrected BERT-GNN: ROC (held-out test)")
+    plt.title("Held-out BERT-GNN: ROC (held-out test)")
     plt.legend(loc="lower right"); plt.grid(alpha=0.3); plt.tight_layout()
     plt.savefig(os.path.join(FIG, "corrected_roc.png"), dpi=200, bbox_inches="tight"); plt.close()
 
@@ -260,7 +260,7 @@ try:
     plt.figure(figsize=(5, 4.2))
     plt.plot(rec, prec, color="#3b6ea5", label=f"PR (AP = {ap:.4f})")
     plt.xlabel("Recall"); plt.ylabel("Precision")
-    plt.title("Corrected BERT-GNN: Precision-Recall (held-out test)")
+    plt.title("Held-out BERT-GNN: Precision-Recall (held-out test)")
     plt.legend(loc="lower left"); plt.grid(alpha=0.3); plt.tight_layout()
     plt.savefig(os.path.join(FIG, "corrected_pr.png"), dpi=200, bbox_inches="tight"); plt.close()
     log("saved corrected_loss_curve.png / corrected_roc.png / corrected_pr.png")
@@ -270,7 +270,7 @@ res = {
     "protocol": "held-out validation: HP search + early stopping on VAL, single eval on the pristine test set",
     "best_params": best_params,
     "test_rows": int(len(test_graphs)),
-    "corrected_test": {
+    "held_out_test": {
         "accuracy": round(float(accuracy_score(tlab, tpred)), 6),
         "precision": round(float(precision_score(tlab, tpred, average="weighted")), 6),
         "recall": round(float(recall_score(tlab, tpred, average="weighted")), 6),
@@ -281,9 +281,9 @@ res = {
 }
 json.dump(res, open(os.path.join(WORK, "corrected_result.json"), "w"), indent=2)
 
-c = res["corrected_test"]
+c = res["held_out_test"]
 lines = [
-    "# Corrected BERT-GNN: held-out validation protocol",
+    "# BERT-GNN: held-out validation protocol",
     "",
     "The original pipeline selected hyperparameters (Optuna, 50 trials) and applied "
     "early stopping using the **test** set, then reported on that same test set, so "
@@ -298,15 +298,15 @@ lines = [
     "| Protocol | Accuracy (%) | Precision (%) | Recall (%) | F1 (%) | Confusion matrix |",
     "|---|---|---|---|---|---|",
     f"| Original (test used for selection) | 99.48 | 99.48 | 99.48 | 99.48 | [[5815, 15], [33, 3413]] |",
-    f"| Corrected (held-out validation) | {c['accuracy']*100:.2f} | {c['precision']*100:.2f} "
+    f"| Held-out (validation) | {c['accuracy']*100:.2f} | {c['precision']*100:.2f} "
     f"| {c['recall']*100:.2f} | {c['f1']*100:.2f} | {c['confusion_matrix']} |",
     "",
     "### Confusion matrices",
     "",
     "![Original BERT-GNN (test used for selection)](cm_original_bertgnn.png)",
-    "![Corrected BERT-GNN (held-out validation)](cm_corrected_bertgnn_heldout.png)",
+    "![Held-out BERT-GNN (validation protocol)](cm_corrected_bertgnn_heldout.png)",
     "",
-    "### Training vs validation loss, ROC and Precision-Recall (corrected model)",
+    "### Training vs validation loss, ROC and Precision-Recall (held-out model)",
     "",
     "![Training vs validation loss](corrected_loss_curve.png)",
     "![ROC (held-out test)](corrected_roc.png)",

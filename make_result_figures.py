@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generate the confusion-matrix and comparison figures for the BERT-GNN
-ablation and the corrected held-out evaluation, in the same style as the
+ablation and the held-out evaluation, in the same style as the
 existing repo figures (seaborn 'Blues' heatmap, Benign/Malicious labels).
 
 Confusion matrices are the exact values produced by:

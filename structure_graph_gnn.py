@@ -249,7 +249,7 @@ res = {"model": "structure-graph BERT-GNN (held-out)",
        "recall": round(float(recall_score(tl, tp, average="weighted")), 6),
        "f1": round(float(f1_score(tl, tp, average="weighted")), 6),
        "confusion_matrix": confusion_matrix(tl, tp).tolist(),
-       "reference": {"chain_graph_hybrid": 0.9948, "corrected_hybrid": 0.9967,
+       "reference": {"chain_graph_hybrid": 0.9948, "held_out_hybrid": 0.9967,
                      "bert_only_mlp": 0.997305}}
 json.dump(res, open(os.path.join(WORK, "result.json"), "w"), indent=2)
 np.save(os.path.join(WORK, "test_pred.npy"), tp)

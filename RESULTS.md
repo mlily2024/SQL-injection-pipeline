@@ -79,9 +79,9 @@ Robustness assessment (dissertation Figure 4.14). Sensitivity score reported in 
 
 A BERT-only baseline (BERT `[CLS]` embedding into a simple Logistic Regression / MLP head, no graph or GNN) trained on the identical 70/30 split and 9,276-row test set. On this near-saturated benchmark the BERT-only baselines match, and marginally exceed, the hybrid on accuracy, so the GNN adds no measurable accuracy here. Full table and reproduction: [`results/ablation_bert_only.md`](results/ablation_bert_only.md) (run `python bert_only_ablation.py`).
 
-### Corrected evaluation — held-out validation protocol
+### Held-out validation evaluation
 
-The original BERT-GNN selected hyperparameters (Optuna) and applied early stopping using the **test** set, so its 99.48% is optimistic. A corrected run keeps the identical 9,276-row test set pristine, carves a **validation** set from the training portion, runs the hyperparameter search and early stopping on **validation**, and evaluates once on the untouched test set. Result: **99.67%** (statistically indistinguishable from 99.48%), confirming the conclusion is robust to the protocol correction. Full table and reproduction: [`results/corrected_bertgnn_heldout.md`](results/corrected_bertgnn_heldout.md) (run `python corrected_bertgnn_retrain.py`).
+The original BERT-GNN selected hyperparameters (Optuna) and applied early stopping using the **test** set, so its 99.48% is optimistic. A held-out run keeps the identical 9,276-row test set pristine, carves a **validation** set from the training portion, runs the hyperparameter search and early stopping on **validation**, and evaluates once on the untouched test set. Result: **99.67%** (statistically indistinguishable from 99.48%), confirming the conclusion is robust to the model-selection protocol. Full table and reproduction: [`results/corrected_bertgnn_heldout.md`](results/corrected_bertgnn_heldout.md) (run `python corrected_bertgnn_retrain.py`).
 
 ![Test-set performance comparison](results/comparison_accuracy_f1.png)
 

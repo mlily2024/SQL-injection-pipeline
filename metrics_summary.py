@@ -21,7 +21,7 @@ OUT = os.path.join(HERE, "results", "full_metrics.md")
 # cm rows = true [benign, malicious], cols = pred; TN=cm00 FP=cm01 FN=cm10 TP=cm11
 CLEAN = {
     "Original BERT-GNN (leaky)":     [[5815, 15], [33, 3413]],
-    "Corrected BERT-GNN (held-out)": [[5814, 16], [15, 3431]],
+    "Held-out BERT-GNN": [[5814, 16], [15, 3431]],
     "Structure-aware BERT-GNN":      [[5813, 17], [16, 3430]],
     "BERT [CLS] + LogReg":           [[5819, 11], [21, 3425]],
     "BERT [CLS] + MLP":              [[5823,  7], [18, 3428]],
@@ -65,7 +65,7 @@ for name, cm in CLEAN.items():
 lines += [
     "",
     "Two points accuracy hides: (i) the leaky original has the lowest attack detection (99.04% "
-    "recall, 33 missed), and the corrected protocol recovers this to 99.56% (15 missed); (ii) the "
+    "recall, 33 missed), and the held-out protocol recovers this to 99.56% (15 missed); (ii) the "
     "BERT-only MLP has the lowest false-alarm rate (FPR 0.12%). On clean data the differences are "
     "within run-to-run noise.",
     "",
