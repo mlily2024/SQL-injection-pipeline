@@ -78,6 +78,7 @@ python robustness_5_crossdataset.py
 python robustness_6_significance.py
 python robustness_7_calibration.py
 python metrics_summary.py            # full per-class metric tables
+python complexity_breakdown.py       # accuracy by query complexity (Table 4)
 python make_result_figures.py        # confusion matrices + comparison charts
 python model_execution_times.py      # training + inference time across all models
 ```
