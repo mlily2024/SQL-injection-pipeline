@@ -28,7 +28,7 @@ MODELS = {
     "Original BERT-GNN (test used for selection)": {
         "cm": [[5815, 15], [33, 3413]], "acc": 99.48, "f1": 99.48,
         "file": "cm_original_bertgnn.png"},
-    "Corrected BERT-GNN (held-out validation)": {
+    "BERT-GNN (held-out validation)": {
         "cm": [[5814, 16], [15, 3431]], "acc": 99.67, "f1": 99.67,
         "file": "cm_corrected_bertgnn_heldout.png"},
     "BERT [CLS] + Logistic Regression": {
@@ -57,7 +57,7 @@ def plot_cm(cm, title, path):
 
 def plot_comparison(path):
     names = list(MODELS)
-    short = ["Original\nBERT-GNN", "Corrected\nBERT-GNN",
+    short = ["Original\nBERT-GNN", "Held-out\nBERT-GNN",
              "BERT+LogReg", "BERT+MLP"]
     acc = [MODELS[n]["acc"] for n in names]
     f1 = [MODELS[n]["f1"] for n in names]
