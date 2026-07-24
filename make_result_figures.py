@@ -56,9 +56,8 @@ def plot_cm(cm, title, path):
 
 
 def plot_comparison(path):
-    names = list(MODELS)
-    short = ["Original\nBERT-GNN", "Held-out\nBERT-GNN",
-             "BERT+LogReg", "BERT+MLP"]
+    names = [k for k in MODELS if not k.startswith("Original")]   # drop the leaky-protocol variant
+    short = ["BERT-GNN", "BERT+LogReg", "BERT+MLP"]
     acc = [MODELS[n]["acc"] for n in names]
     f1 = [MODELS[n]["f1"] for n in names]
     x = np.arange(len(names)); w = 0.38
