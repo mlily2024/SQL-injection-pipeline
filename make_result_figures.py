@@ -28,7 +28,7 @@ MODELS = {
     "Original BERT-GNN (test used for selection)": {
         "cm": [[5815, 15], [33, 3413]], "acc": 99.48, "f1": 99.48,
         "file": "cm_original_bertgnn.png"},
-    "BERT-GNN (held-out validation)": {
+    "BERT-GNN": {
         "cm": [[5814, 16], [15, 3431]], "acc": 99.67, "f1": 99.67,
         "file": "cm_corrected_bertgnn_heldout.png"},
     "BERT [CLS] + Logistic Regression": {
