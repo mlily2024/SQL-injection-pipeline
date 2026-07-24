@@ -29,7 +29,7 @@ MODELS = {
         "cm": [[5815, 15], [33, 3413]], "acc": 99.48, "f1": 99.48,
         "file": "cm_original_bertgnn.png"},
     "BERT-GNN": {
-        "cm": [[5814, 16], [15, 3431]], "acc": 99.67, "f1": 99.67,
+        "cm": [[5818, 12], [23, 3423]], "acc": 99.62, "f1": 99.62,
         "file": "cm_corrected_bertgnn_heldout.png"},
     "BERT [CLS] + Logistic Regression": {
         "cm": [[5819, 11], [21, 3425]], "acc": 99.66, "f1": 99.54,
