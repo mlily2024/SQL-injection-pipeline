@@ -4,7 +4,7 @@ Evaluation on a curated set that is deliberately different from the training dat
 
 | Model | Attack detection (%) | False-positive rate (%) | Accuracy (%) | Missed / false-alarms |
 |---|---|---|---|---|
-| Structure-aware BERT-GNN | 100.0 | 5.9 | 97.1 | 0 / 2 |
+| Structure-aware BERT-GNN | 100.0 | 2.9 | 98.6 | 0 / 1 |
 | BERT-only (MLP) | 100.0 | 11.8 | 94.2 | 0 / 4 |
 
 Both models are trained only on the original dataset, so this measures how well the learned detector transfers to attack and benign patterns it was not trained on. Reproduce with `python robustness_5_crossdataset.py`.

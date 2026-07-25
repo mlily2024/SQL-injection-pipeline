@@ -4,7 +4,7 @@ For a sample of 400 malicious test queries, an adaptive attacker tries a library
 
 | Transform | Structure-GNN evasion (%) | BERT-only evasion (%) |
 |---|---|---|
-| url_encode | 1.25 | 8.00 |
+| url_encode | 6.25 | 8.00 |
 | inline | 0.00 | 0.00 |
 | case_mix | 0.00 | 0.00 |
 | kw_split | 0.00 | 0.00 |
@@ -12,6 +12,6 @@ For a sample of 400 malicious test queries, an adaptive attacker tries a library
 | double_url | 0.00 | 0.00 |
 | combined | 0.00 | 0.00 |
 
-**Adaptive best-of-7 evasion rate: structure-GNN 1.25%, BERT-only 8.00%.** The structure-aware model is evaded less often by an adaptive attacker.
+**Adaptive best-of-7 evasion rate: structure-GNN 6.25%, BERT-only 8.00%.** The structure-aware model is evaded less often by an adaptive attacker.
 
 Reproduce with `python robustness_4_adaptive.py`.

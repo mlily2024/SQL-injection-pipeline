@@ -6,21 +6,21 @@ Prediction stability under (A) random removal of graph nodes (extending the diss
 
 | Nodes removed | Flip rate (%) | Accuracy (%) |
 |---|---|---|
-| 0 | 0.00 | 99.60 |
-| 5 | 0.01 | 99.61 |
-| 10 | 0.08 | 99.57 |
-| 20 | 0.10 | 99.53 |
-| 30 | 0.19 | 99.51 |
+| 0 | 0.00 | 99.61 |
+| 5 | 0.00 | 99.61 |
+| 10 | 0.03 | 99.60 |
+| 20 | 0.09 | 99.57 |
+| 30 | 0.15 | 99.55 |
 
 ## (B) Feature-noise, both models
 
 | Noise sigma | Structure-GNN flip (%) | BERT-only flip (%) |
 |---|---|---|
 | 0.0 | 0.00 | 0.00 |
-| 0.25 | 0.20 | 1.67 |
-| 0.5 | 0.66 | 9.47 |
-| 1.0 | 3.26 | 24.05 |
-| 2.0 | 16.18 | 35.13 |
+| 0.25 | 0.10 | 1.67 |
+| 0.5 | 0.65 | 9.47 |
+| 1.0 | 2.93 | 24.05 |
+| 2.0 | 15.67 | 35.13 |
 
 ![Sensitivity curves](robustness_sensitivity.png)
 
