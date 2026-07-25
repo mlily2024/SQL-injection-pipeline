@@ -50,8 +50,8 @@ from sklearn.metrics import (accuracy_score, precision_score, recall_score,
 from transformers import BertTokenizer, BertModel
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(HERE, "SQL_Injection_Dataset.csv")
-OUT_MD = os.path.join(HERE, "results", "ablation_bert_only.md")
+DATA = os.environ.get("DATA_CSV", os.path.join(HERE, "SQL_Injection_Dataset.csv"))
+OUT_MD = os.environ.get("OUT_MD", os.path.join(HERE, "results", "ablation_bert_only.md"))
 MODEL_NAME = "bert-base-uncased"
 MAX_LEN = 128
 BATCH = 32
