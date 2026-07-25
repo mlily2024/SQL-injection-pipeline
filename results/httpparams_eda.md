@@ -39,5 +39,11 @@ Mean special chars (SQLi vs benign): quote 1.24 vs 0.00; = 1.20 vs 0.00; ( 3.90 
 
 Figures: `httpparams_01_class_distribution.png`, `httpparams_02_length_by_class.png`, `httpparams_03_charlen_by_class.png`.
 
+## Class-imbalance handling
+The set is 64.0% benign / 36.0% malicious (mild imbalance). We handle it with **cost-sensitive learning (balanced class weights in the loss)**, not resampling, and we judge models on **imbalance-robust metrics** (malicious recall, false-positive rate, F1, MCC, balanced accuracy) rather than raw accuracy.
+- *Technique:* `compute_class_weight('balanced')` weights the minority (SQLi) class inversely to its frequency inside the GNN's class-weighted cross-entropy and the logistic-regression head; the MLP head, which sklearn cannot class-weight directly, is handled at the evaluation level.
+- *Why not resampling:* SMOTE interpolates in feature space, but there is no meaningful interpolation between two SQL query strings, and a synthetic BERT embedding between two queries corresponds to no real query - it injects artefacts, not signal. Random oversampling merely duplicates rows (overfitting risk); undersampling would discard about 40% of real benign data for a mild imbalance. Class weighting keeps every real example and fixes the loss asymmetry directly.
+- *Why these metrics:* at 64/36 a trivial all-benign classifier already scores ~64% accuracy, so accuracy is misleading; malicious recall (attack detection), FPR (false alarms), F1, MCC and balanced accuracy are where imbalance actually bites, and they are the fair basis for comparing the GNN against BERT-only.
+
 ## Output
 Clean modelling dataset written to `httpparams_sqli.csv` (30,156 rows, columns Query/Label).

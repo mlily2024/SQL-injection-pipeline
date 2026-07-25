@@ -82,6 +82,26 @@ plt.savefig(os.path.join(RES,"httpparams_03_charlen_by_class.png"),dpi=200); plt
 R(f"\nFigures: `httpparams_01_class_distribution.png`, `httpparams_02_length_by_class.png`, "
   f"`httpparams_03_charlen_by_class.png`.")
 
+# ---- class-imbalance handling (technique + justification) ----
+mal=(df["Label"]==1).mean()*100
+R(f"\n## Class-imbalance handling")
+R(f"The set is {100-mal:.1f}% benign / {mal:.1f}% malicious (mild imbalance). We handle it with "
+  f"**cost-sensitive learning (balanced class weights in the loss)**, not resampling, and we judge "
+  f"models on **imbalance-robust metrics** (malicious recall, false-positive rate, F1, MCC, balanced "
+  f"accuracy) rather than raw accuracy.")
+R(f"- *Technique:* `compute_class_weight('balanced')` weights the minority (SQLi) class inversely to "
+  f"its frequency inside the GNN's class-weighted cross-entropy and the logistic-regression head; the "
+  f"MLP head, which sklearn cannot class-weight directly, is handled at the evaluation level.")
+R(f"- *Why not resampling:* SMOTE interpolates in feature space, but there is no meaningful "
+  f"interpolation between two SQL query strings, and a synthetic BERT embedding between two queries "
+  f"corresponds to no real query - it injects artefacts, not signal. Random oversampling merely "
+  f"duplicates rows (overfitting risk); undersampling would discard about 40% of real benign data for "
+  f"a mild imbalance. Class weighting keeps every real example and fixes the loss asymmetry directly.")
+R(f"- *Why these metrics:* at {100-mal:.0f}/{mal:.0f} a trivial all-benign classifier already scores "
+  f"~{100-mal:.0f}% accuracy, so accuracy is misleading; malicious recall (attack detection), FPR "
+  f"(false alarms), F1, MCC and balanced accuracy are where imbalance actually bites, and they are "
+  f"the fair basis for comparing the GNN against BERT-only.")
+
 # ---- save clean dataset ----
 out=df[["Query","Label"]].copy()
 out.to_csv(os.path.join(HERE,"httpparams_sqli.csv"),index=False)
