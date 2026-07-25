@@ -5,13 +5,14 @@ import os, time, numpy as np, pandas as pd, torch
 from sklearn.model_selection import train_test_split
 from transformers import BertTokenizerFast, BertModel
 
-HERE = os.path.dirname(os.path.abspath(__file__)); SW = os.path.join(HERE, ".structure_work")
+HERE = os.path.dirname(os.path.abspath(__file__)); SW = os.environ.get("WORK_DIR", os.path.join(HERE, ".structure_work"))
+os.makedirs(SW, exist_ok=True)
 os.makedirs(SW, exist_ok=True)
 MAX_SECONDS = 3000; CHUNK = 2000; SEED = 42
 torch.set_num_threads(os.cpu_count() or 4)
 def log(m): print(f"[{time.strftime('%H:%M:%S')}] {m}", flush=True)
 
-df = pd.read_csv(os.path.join(HERE, "SQL_Injection_Dataset.csv"))
+df = pd.read_csv(os.environ.get("DATA_CSV", os.path.join(HERE, "SQL_Injection_Dataset.csv")))
 df["Query"] = df["Query"].astype(str).apply(lambda x: x.lower().strip())
 train_df, _ = train_test_split(df, test_size=0.30, random_state=SEED)
 queries = train_df["Query"].tolist(); N = len(queries)

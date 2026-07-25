@@ -49,8 +49,9 @@ from torch_geometric.data import Data
 from torch_geometric.loader import DataLoader as GeoLoader
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(HERE, "SQL_Injection_Dataset.csv")
-WORK = os.path.join(HERE, ".structure_work")
+DATA = os.environ.get("DATA_CSV", os.path.join(HERE, "SQL_Injection_Dataset.csv"))
+WORK = os.environ.get("WORK_DIR", os.path.join(HERE, ".structure_work"))
+os.makedirs(WORK, exist_ok=True)
 os.makedirs(WORK, exist_ok=True)
 MODEL_NAME = "bert-base-uncased"
 MAX_LEN = 128
