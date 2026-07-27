@@ -72,7 +72,9 @@ def graphs_path(tag): return os.path.join(WORK, f"graphs_{tag}.pkl")
 
 def build_graphs(tag, frame):
     """Replicates the notebook: node i (i<num_words) = BERT last_hidden_state[i];
-    undirected chain edges; drop empty graphs. Cached to disk."""
+    undirected chain edges (forward + reverse); drop empty graphs. Cached to disk.
+    NOTE: delete .corrected_work/graphs_*.pkl before rerunning if the cache was
+    built by an earlier (directed-edge) version, or the stale cache is reused."""
     p = graphs_path(tag)
     if os.path.exists(p):
         return
@@ -99,7 +101,10 @@ def build_graphs(tag, frame):
                 x = hs[b, :n, :].clone().float()
                 if n <= 0:
                     continue
-                ei = (torch.tensor([[j, j+1] for j in range(n-1)], dtype=torch.long).t().contiguous()
+                # undirected chain: forward edges plus their reverse, so the
+                # adjacency is symmetric (matches the GCNConv normalisation)
+                fwd = [[j, j + 1] for j in range(n - 1)]
+                ei = (torch.tensor(fwd + [[b, a] for a, b in fwd], dtype=torch.long).t().contiguous()
                       if n > 1 else torch.empty((2, 0), dtype=torch.long))
                 graphs[i] = Data(x=x, edge_index=ei, y=torch.tensor([labels[i]], dtype=torch.long))
             if (k // B) % 100 == 0:
