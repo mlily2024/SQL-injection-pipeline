@@ -1,0 +1,9 @@
+{
+  "n_test": 6184,
+  "acc_svm": 99.84,
+  "acc_ensemble": 99.82,
+  "discordant_svm_right_ens_wrong": 1,
+  "discordant_ens_right_svm_wrong": 0,
+  "mcnemar_exact_p": 1.0,
+  "significant_at_0.05": false
+}

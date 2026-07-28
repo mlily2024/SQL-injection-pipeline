@@ -7,3 +7,6 @@ __pycache__/
 
 .structure_work_hp/
 .corrected_work_hp/
+
+# McNemar reproduction caches (embeddings/models)
+.distil_work/
