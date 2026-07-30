@@ -28,7 +28,7 @@ Plus the dataset used to train and evaluate both pipelines:
 | Pipeline | Accuracy | Adversarial accuracy (FGSM) | Notes |
 |---|---|---|---|
 | **DistilBERT-Stacked Ensemble** | **99.81%** | **99.77%** | Selected recommended approach; fast execution time |
-| **BERT-GNN** | **99.48%** | — | Superior structural understanding; longer execution time (23.13 s) |
+| **BERT-GNN** | **99.48%** (99.67% held-out) | — | Superior structural understanding; longer execution time (23.13 s); held-out-validation retrain reaches 99.67%, see [`RESULTS.md`](RESULTS.md) |
 | Best conventional baseline (Random Forest) | 94.47% | — | Benchmarked in the same study |
 
 All four performance metrics (accuracy, precision, recall, F1-score) hit the same headline figure for both Hybrid pipelines. Full per-model tables, confusion matrices, ROC curves, learning curves and sensitivity analyses are in the notebooks and in the dissertation.
